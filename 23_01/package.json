@@ -1,0 +1,14 @@
+{
+  "name": "training-node-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demo1_23.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
