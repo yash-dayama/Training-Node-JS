@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const mysql = require('mysql');
 
@@ -10,9 +11,9 @@ const db = mysql.createConnection({
 });
 
 // connect to MySql
-db.connect(err =>{
+db.connect((err) => {
     if (err){
-        throw err;
+        throw err;  
     }
     console.log("Connected to MySQL");
 });
@@ -21,7 +22,7 @@ const app = express();
 
 // create Database
 app.get('/createdb', (req, res) => {
-    let sql = 'CREATE DATABASE nodemysql';
+    let sql = "CREATE DATABASE nodemysql";
     db.query(sql, (err) => {
         if (err){
             throw err;
@@ -35,7 +36,7 @@ app.get('/createemployee', (req, res) => {
     let sql = 'CREATE TABLE employee(id int AUTO_INCREMENT, name VARCHAR(255),designation VARCHAR(255), PRIMARY KEY (id))'
     db.query(sql, err => {
         if (err) {
-            throw err 
+            throw err;
         }
         res.send("Employee Table created");
     });
@@ -65,11 +66,29 @@ app.get('/getemployee', (req, res) => {
     });
 });
 
-// // update employee
-// app.get('/updateemployee/:id', (req, res) => {
-//     let newName = 'Update Name';
-//     let sql = 'UPDATE employee SET name = '${newName}' WHERE id = ${req.params.id}';  
-// });
+// update employee
+app.get('/updateemployee/:id', (req, res) => {
+    let newName = 'Update Name';    
+    let sql = `UPDATE employee SET name = '${newName}' WHERE id = ${req.params.id}`;
+    let query = db.query(sql, err => {
+        if(err){
+            throw err;
+        }
+        res.send("Employee Updated");
+    });  
+});
+
+// delete employee
+app.get('/deleteemployee/:id', (req, res) =>{
+    let sql = `DELETE FROM employee WHERE id = ${req.params.id}`;
+    let query = db.query(sql, err =>{
+        if(err){
+            throw err;
+        }
+        res.send("Employee Deleted");
+    });
+
+});
 
 app.listen('3000', ()=> {
     console.log("Server started on port 3000");
